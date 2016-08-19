@@ -1,0 +1,28 @@
+{
+  "name": "nomad-helper",
+  "version": "1.0.0",
+  "description": "Helps with editing job files depending on available services",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crokita/nomad-helper.git"
+  },
+  "keywords": [
+    "nomad",
+    "nomad-helper"
+  ],
+  "author": "Christopher Rokita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crokita/nomad-helper/issues"
+  },
+  "homepage": "https://github.com/crokita/nomad-helper#readme",
+  "dependencies": {
+    "jsonfile": "^2.3.1",
+    "needle": "^1.1.0"
+  }
+}
