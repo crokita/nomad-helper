@@ -4,6 +4,7 @@ Plays well with consul-helper
 
 An example for Manticore:
 
+```
 //supply a host IP address in the options array
 var nomader = require('nomad-helper');
 var consuler = require('consul-helper')("192.168.1.144");
@@ -53,3 +54,4 @@ consuler.watchService("hmi-master", function (services) {
 
 //submit the core job!
 jobCore.submitJob("192.168.1.142:4646");
+```
