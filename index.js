@@ -51,6 +51,24 @@ Template.prototype.submitJob = function (address) {
 	});
 }
 
+//gets the number of instances that should be running
+Template.prototype.getCount = function (groupName) {
+	let group = this.findGroup(groupName);
+	if (group === null) {
+		return;
+	}
+	return group.Count;
+}
+
+//sets the number of instances that should be running
+Template.prototype.setCount = function (groupName, count) {
+	let group = this.findGroup(groupName);
+	if (group === null) {
+		return;
+	}
+	group.Count = count;
+}
+
 //creates a new group with a name, but no tasks
 //add it to the job object
 Template.prototype.addGroup = function (groupName) {
