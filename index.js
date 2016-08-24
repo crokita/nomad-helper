@@ -51,23 +51,6 @@ Template.prototype.submitJob = function (address) {
 	});
 }
 
-//gets the number of instances that should be running
-Template.prototype.getCount = function (groupName) {
-	let group = this.findGroup(groupName);
-	if (group === null) {
-		return;
-	}
-	return group.Count;
-}
-
-//sets the number of instances that should be running
-Template.prototype.setCount = function (groupName, count) {
-	let group = this.findGroup(groupName);
-	if (group === null) {
-		return;
-	}
-	group.Count = count;
-}
 
 //creates a new group with a name, but no tasks
 //add it to the job object
@@ -104,8 +87,26 @@ Template.prototype.addService = function (groupName, taskName, serviceName) {
 		return;
 	}
 	var obj = getJson('service-template');
-	obj.Name = taskName;
+	obj.Name = serviceName;
 	task.Services.push(obj);
+}
+
+//gets the number of instances that should be running
+Template.prototype.getCount = function (groupName) {
+	let group = this.findGroup(groupName);
+	if (group === null) {
+		return;
+	}
+	return group.Count;
+}
+
+//sets the number of instances that should be running
+Template.prototype.setCount = function (groupName, count) {
+	let group = this.findGroup(groupName);
+	if (group === null) {
+		return;
+	}
+	group.Count = count;
 }
 
 //sets the docker image you are using for the job. needs a group name and task name
