@@ -48,25 +48,11 @@ Template.prototype.submitJob = function (address) {
 	//'this' changes inside async call
 	var jobObject = this.getJob();
 	jobObjectString = JSON.stringify(jobObject);
-
-	//use the name of the job's group to find if the service is running
-	needle.get('http://' + address + '/v1/job/' + jobObject.Job.Name, function (err, res) {
+	needle.post('http://' + address + '/v1/job/', jobObjectString, function (err, res) {
 		if (err) {
-			throw err;
+			throw err;					
 		}
-		//if there is a valid object in the body then there is a job running already
-		if (typeof(res.body) === 'object') {
-			//job running.
-			console.log("there's a job");
-		}
-		else {
-			//no core job. submit the one in the template
-			needle.post('http://' + address + '/v1/job/', jobObjectString, function (err, res) {
-				if (err) {
-					throw err;					
-				}
-			});
-		}	
+		console.log(res.body);
 	});
 }
 
