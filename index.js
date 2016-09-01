@@ -2,7 +2,8 @@ var needle = require('needle');
 var jsonfile = require('jsonfile');
 
 module.exports = {
-	createJob: createJob
+	createJob: createJob,
+	findJob: findJob
 }
 
 //uses service-template to make a JSON nomad job file without anything in TaskGroups
@@ -11,6 +12,24 @@ function createJob (jobName) {
 	obj.Job.ID = jobName;
 	obj.Job.Name = jobName;
 	return new Template(obj);
+}
+
+//find a job in Nomad with the name given. returns a new Template instance if
+//a job is found or null if none is found
+function findJob (jobName, callback) {
+	needle.get('http://' + address + '/v1/job/' + jobName, function (err, res) {
+		if (err) {
+			throw err;
+		}
+		//if there is a valid object in the body then there is a job running
+		if (typeof(res.body) === 'object') {
+			callback(new Template(res.body));
+		}
+		else {
+			//no core job
+			callback(null);
+		}	
+	});
 }
 
 //function constructor for editing nomad job files easily
