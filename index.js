@@ -44,7 +44,7 @@ Template.prototype.getJob = function () {
 
 //send the job file to Nomad through the Nomad HTTP API
 //needs an http address for Nomad, both the IP and port in ip:port format
-Template.prototype.submitJob = function (address) {
+Template.prototype.submitJob = function (address, callback) {
 	//'this' changes inside async call
 	var jobObject = this.getJob();
 	jobObjectString = JSON.stringify(jobObject);
@@ -52,7 +52,7 @@ Template.prototype.submitJob = function (address) {
 		if (err) {
 			throw err;					
 		}
-		console.log(res.body);
+		callback(res.body);
 	});
 }
 
