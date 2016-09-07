@@ -17,7 +17,7 @@ function createJob (jobName) {
 
 //find a job in Nomad with the name given. returns a new Template instance if
 //a job is found or null if none is found
-function findJob (jobName, callback) {
+function findJob (jobName, address, callback) {
 	needle.get('http://' + address + '/v1/job/' + jobName, function (err, res) {
 		if (err) {
 			throw err;
@@ -33,7 +33,7 @@ function findJob (jobName, callback) {
 	});
 }
 
-function deleteJob (jobName, callback) {
+function deleteJob (jobName, address, callback) {
 	needle.delete('http://' + address + '/v1/job/' + jobName, function (err, res) {
 		callback();
 	});
