@@ -34,7 +34,7 @@ function findJob (jobName, callback) {
 }
 
 function deleteJob (jobName, callback) {
-	needle.delete(jobName, function (err, res) {
+	needle.delete('http://' + address + '/v1/job/' + jobName, function (err, res) {
 		callback();
 	});
 }
