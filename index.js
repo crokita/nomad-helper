@@ -3,7 +3,8 @@ var jsonfile = require('jsonfile');
 
 module.exports = {
 	createJob: createJob,
-	findJob: findJob
+	findJob: findJob,
+	deleteJob: deleteJob
 }
 
 //uses service-template to make a JSON nomad job file without anything in TaskGroups
@@ -29,6 +30,12 @@ function findJob (jobName, callback) {
 			//no core job
 			callback(null);
 		}	
+	});
+}
+
+function deleteJob (jobName, callback) {
+	needle.delete(jobName, function (err, res) {
+		callback();
 	});
 }
 
