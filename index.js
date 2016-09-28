@@ -122,6 +122,7 @@ Template.prototype.setCount = function (groupName, count) {
 }
 
 //sets the restart policy of the group
+//interval and delay is specified in nanoseconds
 Template.prototype.setRestartPolicy = function (groupName, interval, attempts, delay, mode) {
 	let group = this.findGroup(groupName);
 	if (group === null) {
