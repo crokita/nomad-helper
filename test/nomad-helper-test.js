@@ -93,9 +93,9 @@ describe('#setRestartPolicy()', function () {
 	it('should modify the RestartPolicy property inside the group', function () {
 		var job = nomader.createJob("job");
 		var obj = {
-			Interval: "30s",
+			Interval: 30000,
 			Attempts: 5,
-			Delay: "1m",
+			Delay: 60000,
 			Mode: "delay"
 		};
 		job.addGroup("group1");

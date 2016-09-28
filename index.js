@@ -122,12 +122,6 @@ Template.prototype.setCount = function (groupName, count) {
 }
 
 //sets the restart policy of the group
-//interval: used for attempt count. specified as a string ("30s", "5m", "1h")
-//attempts: number of times Nomad will restart the task in an interval
-//delay: how long to wait until the task is restarted ("30s", "5m", "1h")
-//mode: when task fails more than the specified times in an interval:
-//    "delay"- delay the next restart
-//    "fail"- don't restart the task
 Template.prototype.setRestartPolicy = function (groupName, interval, attempts, delay, mode) {
 	let group = this.findGroup(groupName);
 	if (group === null) {
