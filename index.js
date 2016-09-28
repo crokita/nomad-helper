@@ -121,6 +121,27 @@ Template.prototype.setCount = function (groupName, count) {
 	group.Count = count;
 }
 
+//sets the restart policy of the group
+//interval: used for attempt count. specified as a string ("30s", "5m", "1h")
+//attempts: number of times Nomad will restart the task in an interval
+//delay: how long to wait until the task is restarted ("30s", "5m", "1h")
+//mode: when task fails more than the specified times in an interval:
+//    "delay"- delay the next restart
+//    "fail"- don't restart the task
+Template.prototype.setRestartPolicy = function (groupName, interval, attempts, delay, mode) {
+	let group = this.findGroup(groupName);
+	if (group === null) {
+		return;
+	}
+	var policyObj = {
+		Interval: interval,
+		Attempts: attempts,
+		Delay: delay,
+		Mode: mode
+	}
+	group.RestartPolicy = policyObj;
+}
+
 //sets the docker image you are using for the job. needs a group name and task name
 Template.prototype.setImage = function (groupName, taskName, imageName) {
 	//makes sure the task exists first

@@ -89,6 +89,21 @@ describe('#getCount()', function () {
 	});
 });
 
+describe('#setRestartPolicy()', function () {
+	it('should modify the RestartPolicy property inside the group', function () {
+		var job = nomader.createJob("job");
+		var obj = {
+			Interval: "30s",
+			Attempts: 5,
+			Delay: "1m",
+			Mode: "delay"
+		};
+		job.addGroup("group1");
+		job.setRestartPolicy("group1", obj.Interval, obj.Attempts, obj.Delay, obj.Mode);
+		assert.deepStrictEqual(job.findGroup("group1").RestartPolicy, obj);
+	});
+});
+
 describe('#setCount()', function () {
 	it('should modify the count property inside the group', function () {
 		var job = nomader.createJob("job");
