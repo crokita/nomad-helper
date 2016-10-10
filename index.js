@@ -4,7 +4,8 @@ var jsonfile = require('jsonfile');
 module.exports = {
 	createJob: createJob,
 	findJob: findJob,
-	deleteJob: deleteJob
+	deleteJob: deleteJob,
+	getAllocations: getAllocations
 }
 
 //uses service-template to make a JSON nomad job file without anything in TaskGroups
@@ -36,6 +37,30 @@ function findJob (jobName, address, callback) {
 function deleteJob (jobName, address, callback) {
 	needle.delete('http://' + address + '/v1/job/' + jobName, null, function (err, res) {
 		callback();
+	});
+}
+
+//get all allocations for a specific job
+function getAllocations (jobName, address, callback) {
+	needle.get('http://' + address + '/v1/job/' + jobName + "/allocations", function (err, res) {
+		if (err) {
+			throw err;
+		}
+		//value should be an array
+		var allocations = res.body;
+
+		//return the allocations with a helper function to get just one property of the array
+		callback({
+			allocations: allocations,
+			getProperty: getProperty
+		});
+		function getProperty (property) {
+			var props = [];
+			for (let i = 0; i < allocations.length; i++) {
+				props.push(allocations[i][property]);
+			}
+			return props;
+		}
 	});
 }
 
