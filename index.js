@@ -67,7 +67,7 @@ function getAllocations (jobName, address, callback) {
 }
 
 //stream the logs from an allocation
-function streamLogs (allocationId, taskName, follow, logType, address, callback) {
+function streamLogs (allocationId, taskName, logType, address, callback) {
 	var address = 'http://' + address + '/v1/client/fs/logs/' + allocationId;
 	//add query parameters
 	var data = {
