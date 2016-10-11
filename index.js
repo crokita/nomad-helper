@@ -1,11 +1,13 @@
 var needle = require('needle');
 var jsonfile = require('jsonfile');
+var JSONStream = require('JSONStream');
 
 module.exports = {
 	createJob: createJob,
 	findJob: findJob,
 	deleteJob: deleteJob,
-	getAllocations: getAllocations
+	getAllocations: getAllocations,
+	streamLogs: streamLogs
 }
 
 //uses service-template to make a JSON nomad job file without anything in TaskGroups
@@ -62,6 +64,25 @@ function getAllocations (jobName, address, callback) {
 			return props;
 		}
 	});
+}
+
+//stream the logs from an allocation
+function streamLogs (allocationId, taskName, follow, logType, address, callback) {
+	var address = 'http://' + address + '/v1/client/fs/logs/' + allocationId;
+	//add query parameters
+	var data = {
+		task: taskName,
+		follow: true, //we want a stream
+		type: logType
+	}
+	//pass in {parse:true} because this stream expects formatted JSON
+	needle.request('get', address, data, {parse:true})
+	.pipe(new JSONStream.parse("Data")) //return full JSON objects and only return the "Data" property back
+	.on('data', function (obj) {
+		//base 64 encoding. decode it to utf-8 and return the chunk
+		var result = new Buffer(obj, 'base64').toString('utf-8');
+		callback(result);
+	})
 }
 
 //function constructor for editing nomad job files easily

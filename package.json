@@ -1,6 +1,6 @@
 {
   "name": "nomad-helper",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Helps with editing job files depending on available services",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/crokita/nomad-helper#readme",
   "dependencies": {
+    "JSONStream": "^1.2.1",
     "jsonfile": "^2.3.1",
     "needle": "^1.1.0"
   },
