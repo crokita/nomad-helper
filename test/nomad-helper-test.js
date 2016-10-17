@@ -212,3 +212,47 @@ describe('#addCheck()', function () {
 		assert.deepStrictEqual(job.findService("group1", "task1", "service1").Checks[0], check);
 	});
 });
+
+describe('#setCPU()', function () {
+	it('should set the CPU limit of a task', function () {
+		let limit = 100;
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.setCPU("group1", "task1", limit);
+		assert.strictEqual(job.findTask("group1", "task1").Resources.CPU, limit);
+	});
+});
+
+describe('#setMemory()', function () {
+	it('should set the memory limit of a task', function () {
+		let limit = 100;
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.setMemory("group1", "task1", limit);
+		assert.strictEqual(job.findTask("group1", "task1").Resources.MemoryMB, limit);
+	});
+});
+
+describe('#setDisk()', function () {
+	it('should set the disk limit of a task', function () {
+		let limit = 100;
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.setDisk("group1", "task1", limit);
+		assert.strictEqual(job.findTask("group1", "task1").Resources.DiskMB, limit);
+	});
+});
+
+describe('#setMbits()', function () {
+	it('should set the mbits limit of a task', function () {
+		let limit = 100;
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.setMbits("group1", "task1", limit);
+		assert.strictEqual(job.findTask("group1", "task1").Resources.Networks[0].MBits, limit);
+	});
+});

@@ -265,6 +265,42 @@ Template.prototype.addCheck = function (groupName, taskName, serviceName, checkO
 	service.Checks.push(checkObj);
 }
 
+//set the CPU limit of the task (MHz)
+Template.prototype.setCPU = function (groupName, taskName, cpuNumber) {
+	let task = this.findTask(groupName, taskName);
+	if (task === null) {
+		return;
+	}
+	task.Resources.CPU = cpuNumber;
+}
+
+//set the memory limit of the task (MB)
+Template.prototype.setMemory = function (groupName, taskName, memNumber) {
+	let task = this.findTask(groupName, taskName);
+	if (task === null) {
+		return;
+	}
+	task.Resources.MemoryMB = memNumber;
+}
+
+//set the disk limit of the task (MB)
+Template.prototype.setDisk = function (groupName, taskName, diskNumber) {
+	let task = this.findTask(groupName, taskName);
+	if (task === null) {
+		return;
+	}
+	task.Resources.DiskMB = diskNumber;
+}
+
+//set the Mbits limit of the task (MB). Only modifies the first network object!
+Template.prototype.setMbits = function (groupName, taskName, mBitsNumber) {
+	let task = this.findTask(groupName, taskName);
+	if (task === null) {
+		return;
+	}
+	task.Resources.Networks[0].MBits = mBitsNumber;
+}
+
 // HELPER FUNCTIONS. DON'T ACTUALLY CALL THEM
 
 //returns the group if found. otherwise, return null
