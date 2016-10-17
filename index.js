@@ -301,6 +301,16 @@ Template.prototype.setMbits = function (groupName, taskName, mBitsNumber) {
 	task.Resources.Networks[0].MBits = mBitsNumber;
 }
 
+//set how many log files to rotate and the size of each
+Template.prototype.setLogs = function (groupName, taskName, logFiles, logSize) {
+	let task = this.findTask(groupName, taskName);
+	if (task === null) {
+		return;
+	}
+	task.LogConfig.MaxFiles = logFiles;
+	task.LogConfig.MaxFileSizeMB = logSize;
+}
+
 // HELPER FUNCTIONS. DON'T ACTUALLY CALL THEM
 
 //returns the group if found. otherwise, return null

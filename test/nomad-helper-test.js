@@ -256,3 +256,16 @@ describe('#setMbits()', function () {
 		assert.strictEqual(job.findTask("group1", "task1").Resources.Networks[0].MBits, limit);
 	});
 });
+
+describe('#setLogs()', function () {
+	it('should set the log configurations of a task', function () {
+		let files = 5;
+		let limit = 10;
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.setLogs("group1", "task1", files, limit);
+		assert.strictEqual(job.findTask("group1", "task1").LogConfig.MaxFiles, files);
+		assert.strictEqual(job.findTask("group1", "task1").LogConfig.MaxFileSizeMB, limit);
+	});
+});
