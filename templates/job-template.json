@@ -9,13 +9,7 @@
         "Datacenters": [
             "dc1"
         ],
-        "Constraints": [
-            {
-                "LTarget": "${attr.kernel.name}",
-                "RTarget": "linux",
-                "Operand": "="
-            }
-        ],
+        "Constraints": [],
         "TaskGroups": [],
         "Update": {
             "Stagger": 10000000000,

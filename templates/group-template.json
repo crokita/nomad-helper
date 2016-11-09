@@ -1,7 +1,7 @@
 {
     "Name": "",
     "Count": 1,
-    "Constraints": null,
+    "Constraints": [],
     "Tasks": [],
     "RestartPolicy": {
         "Interval": 300000000000,

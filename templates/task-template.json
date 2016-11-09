@@ -3,7 +3,7 @@
     "Driver": "docker",
     "User": "",
     "Config": {},
-    "Constraints": null,
+    "Constraints": [],
     "Env": {},
     "Services": [],
     "Resources": {

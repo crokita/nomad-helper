@@ -123,6 +123,17 @@ Template.prototype.addGroup = function (groupName) {
 	this.getJob().Job.TaskGroups.push(obj);
 }
 
+//sets the type of schedule to use for this job
+Template.prototype.setType = function (type) {
+	this.getJob().Job.Type = type;
+}
+
+//sets how updating a job works. staggerTime is in nanoseconds
+Template.prototype.setUpdate = function (parallel, staggerTime) {
+	this.getJob().Job.Update.Stagger = staggerTime;
+	this.getJob().Job.Update.MaxParallel = parallel;
+}
+
 //creates a new bare-bones task with a name
 //add it to the job group specified
 Template.prototype.addTask = function (groupName, taskName) {
@@ -238,6 +249,15 @@ Template.prototype.addEnv = function (groupName, taskName, key, value) {
 	task.Env[key] = value;
 }
 
+//add a path from the host that will be accessible by the container
+Template.prototype.addVolume = function (groupName, taskName, path) {
+	let task = this.findTask(groupName, taskName);
+	if (task === null) {
+		return;
+	}
+	task.Config.volumes.push(path);
+}
+
 //add a tag to the service. you can add interpolated strings that Nomad recognizes, too
 Template.prototype.addTag = function (groupName, taskName, serviceName, tag) {
 	let service = this.findService(groupName, taskName, serviceName);
@@ -309,6 +329,34 @@ Template.prototype.setLogs = function (groupName, taskName, logFiles, logSize) {
 	}
 	task.LogConfig.MaxFiles = logFiles;
 	task.LogConfig.MaxFileSizeMB = logSize;
+}
+
+//add an object to the constraints object in the job, group or task level
+//there is no enforcement of what the object should be. be careful
+Template.prototype.addConstraint = function (constraint, groupName, taskName) {
+	//if there is no group name, add the constraint to the job 
+	//if there is a group name but no task name, add the constraint to the specified group 
+	//if there is a group name and task name, add the constraint to the specified task
+	if (!groupName) {
+		this.getJob().Job.Constraints.push(constraint);
+	} 
+	else {
+		let	group = this.findGroup(groupName);
+		if (!taskName) {
+			if (group === null) {
+				return null;
+			}
+			group.Constraints.push(constraint);
+		}
+		else {
+			let task = this.findTask(groupName, taskName);
+			if (task === null) {
+				return null;
+			}
+			task.Constraints.push(constraint);
+		}
+
+	}
 }
 
 // HELPER FUNCTIONS. DON'T ACTUALLY CALL THEM

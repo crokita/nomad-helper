@@ -35,6 +35,23 @@ describe('#findGroup()', function () {
 	});
 });
 
+describe('#setType()', function () {
+	it('should set a scheduler type for the job', function () {
+		var job = nomader.createJob("job");
+		job.setType("service");
+		assert.strictEqual(job.getJob().Job.Type, "service");
+	});
+});
+
+describe('#setUpdate()', function () {
+	it('should set an update object for the job', function () {
+		var job = nomader.createJob("job");
+		job.setUpdate(3, 10000000000);
+		assert.strictEqual(job.getJob().Job.Update.Stagger, 10000000000);
+		assert.strictEqual(job.getJob().Job.Update.MaxParallel, 3);
+	});
+});
+
 describe('#addTask()', function () {
 	it('should add a Task object from the template to the job', function () {
 		var job = nomader.createJob("job");
@@ -267,5 +284,43 @@ describe('#setLogs()', function () {
 		job.setLogs("group1", "task1", files, limit);
 		assert.strictEqual(job.findTask("group1", "task1").LogConfig.MaxFiles, files);
 		assert.strictEqual(job.findTask("group1", "task1").LogConfig.MaxFileSizeMB, limit);
+	});
+});
+
+var exampleConstraint = {
+	test: "123"
+}
+
+describe('#addConstraint()', function () {
+	it('should add a constraint on the job level if group is not defined', function () {
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.addConstraint(exampleConstraint);
+		assert.strictEqual(job.getJob().Job.Constraints[0], exampleConstraint);
+	});
+
+	it('should add a constraint on the job level if task is defined and group is not defined', function () {
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.addConstraint(exampleConstraint, undefined, "task1");
+		assert.strictEqual(job.getJob().Job.Constraints[0], exampleConstraint);
+	});
+
+	it('should add a constraint on the group level if task is undefined and group is defined', function () {
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.addConstraint(exampleConstraint, "group1");
+		assert.strictEqual(job.findGroup("group1").Constraints[0], exampleConstraint);
+	});
+
+	it('should add a constraint on the task level if task is defined and group is defined', function () {
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.addConstraint(exampleConstraint, "group1", "task1");
+		assert.strictEqual(job.findTask("group1", "task1").Constraints[0], exampleConstraint);
 	});
 });
