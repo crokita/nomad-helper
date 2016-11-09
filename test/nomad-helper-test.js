@@ -192,6 +192,17 @@ describe('#addEnv()', function () {
 	});
 });
 
+describe('#addVolume()', function () {
+	it('should add a volume path to the job', function () {
+		let path = "testing";
+		var job = nomader.createJob("job");
+		job.addGroup("group1");
+		job.addTask("group1", "task1");
+		job.addVolume("group1", "task1", path);
+		assert.strictEqual(job.findTask("group1", "task1").Config.volumes[0], path);
+	});
+});
+
 describe('#addTag()', function () {
 	it('should add a tag to a service', function () {
 		let tag = "tag";

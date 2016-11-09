@@ -255,6 +255,9 @@ Template.prototype.addVolume = function (groupName, taskName, path) {
 	if (task === null) {
 		return;
 	}
+	if (!task.Config.volumes) {
+		task.Config.volumes = [];
+	}
 	task.Config.volumes.push(path);
 }
 
