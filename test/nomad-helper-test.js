@@ -199,7 +199,7 @@ describe('#addVolume()', function () {
 		job.addGroup("group1");
 		job.addTask("group1", "task1");
 		job.addVolume("group1", "task1", path);
-		assert.strictEqual(job.findTask("group1", "task1").Config.Volumes[0], path);
+		assert.strictEqual(job.findTask("group1", "task1").Config.volumes[0], path);
 	});
 });
 
