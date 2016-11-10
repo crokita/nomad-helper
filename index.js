@@ -255,10 +255,10 @@ Template.prototype.addVolume = function (groupName, taskName, path) {
 	if (task === null) {
 		return;
 	}
-	if (!task.Config.volumes) {
-		task.Config.volumes = [];
+	if (!task.Config.Volumes) {
+		task.Config.Volumes = [];
 	}
-	task.Config.volumes.push(path);
+	task.Config.Volumes.push(path);
 }
 
 //add a tag to the service. you can add interpolated strings that Nomad recognizes, too
