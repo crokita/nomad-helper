@@ -263,14 +263,17 @@ describe('#setMemory()', function () {
 	});
 });
 
-describe('#setDisk()', function () {
-	it('should set the disk limit of a task', function () {
+describe('#setEphemeralDisk()', function () {
+	it('should set the disk properties of a task group', function () {
 		let limit = 100;
+		let sticky = true;
+		let migrate = false;
 		var job = nomader.createJob("job");
 		job.addGroup("group1");
-		job.addTask("group1", "task1");
-		job.setDisk("group1", "task1", limit);
-		assert.strictEqual(job.findTask("group1", "task1").Resources.DiskMB, limit);
+		job.setEphemeralDisk("group1", limit, migrate, sticky);
+		assert.strictEqual(job.findGroup("group1").EphemeralDisk.SizeMB, limit);
+		assert.strictEqual(job.findGroup("group1").EphemeralDisk.Migrate, migrate);
+		assert.strictEqual(job.findGroup("group1").EphemeralDisk.Sticky, sticky);
 	});
 });
 

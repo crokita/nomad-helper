@@ -306,13 +306,15 @@ Template.prototype.setMemory = function (groupName, taskName, memNumber) {
 	task.Resources.MemoryMB = memNumber;
 }
 
-//set the disk limit of the task (MB)
-Template.prototype.setDisk = function (groupName, taskName, diskNumber) {
-	let task = this.findTask(groupName, taskName);
-	if (task === null) {
+//sets data about the disk for a job group
+Template.prototype.setEphemeralDisk = function (groupName, diskSize, migrate, sticky) {
+	let group = this.findGroup(groupName);
+	if (group === null) {
 		return;
 	}
-	task.Resources.DiskMB = diskNumber;
+	group.EphemeralDisk.Migrate = migrate;
+	group.EphemeralDisk.SizeMB = diskSize;
+	group.EphemeralDisk.Sticky = sticky;
 }
 
 //set the Mbits limit of the task (MB). Only modifies the first network object!

@@ -9,7 +9,7 @@
     "Resources": {
         "CPU": 500,
         "MemoryMB": 256,
-        "DiskMB": 300,
+        "DiskMB": 0,
         "IOPS": 0,
         "Networks": [
             {

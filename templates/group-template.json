@@ -9,5 +9,10 @@
         "Delay": 25000000000,
         "Mode": "fail"
     },
+    "EphemeralDisk": {
+        "Sticky": false,
+        "Migrate": false,
+        "SizeMB": 300
+    },
     "Meta": null
 }
