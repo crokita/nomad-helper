@@ -100,7 +100,7 @@ Template.prototype.getJob = function () {
 Template.prototype.submitJob = function (address, callback) {
 	//'this' changes inside async call
 	var jobObject = this.getJob();
-	jobObjectString = JSON.stringify(jobObject);
+	var jobObjectString = JSON.stringify(jobObject);
 	needle.post('http://' + address + '/v1/job/', jobObjectString, function (err, res) {
 		if (err) {
 			throw err;					
@@ -109,6 +109,17 @@ Template.prototype.submitJob = function (address, callback) {
 	});
 }
 
+//do a "fake" submission of a job to see the results
+Template.prototype.planJob = function (address, jobName, callback) {
+	var jobObject = this.getJob();
+	var jobObjectString = JSON.stringify(jobObject);
+	needle.post('http://' + address + '/v1/job/' + jobName + "/plan", jobObjectString, function (err, res) {
+		if (err) {
+			throw err;					
+		}
+		callback(res.body);
+	});
+}
 
 //creates a new group with a name, but no tasks
 //add it to the job object
