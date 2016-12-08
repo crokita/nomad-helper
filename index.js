@@ -27,7 +27,7 @@ function findJob (jobName, address, callback) {
 		}
 		//if there is a valid object in the body then there is a job running
 		if (typeof(res.body) === 'object') {
-			callback(new Template(res.body));
+			callback(new Template({Job:res.body}));
 		}
 		else {
 			//no core job
