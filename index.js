@@ -7,6 +7,7 @@ module.exports = {
 	findJob: findJob,
 	deleteJob: deleteJob,
 	getAllocations: getAllocations,
+	getNodeStatus: getNodeStatus,
 	streamLogs: streamLogs
 }
 
@@ -65,6 +66,17 @@ function getAllocations (jobName, address, callback) {
 		}
 	});
 }
+
+//get the status of a node using an ID
+function getNodeStatus (coreID, address, callback) {
+	needle.get('http://' + address + '/v1/node/' + coreID, function (err, res) {
+		if (err) {
+			throw err;
+		}
+		callback(res.body);
+	});
+}
+
 
 //stream the logs from an allocation
 function streamLogs (allocationId, taskName, logType, address, callback) {
