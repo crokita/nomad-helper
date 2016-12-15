@@ -68,8 +68,8 @@ function getAllocations (jobName, address, callback) {
 }
 
 //get the status of a node using an ID
-function getNodeStatus (coreID, address, callback) {
-	needle.get('http://' + address + '/v1/node/' + coreID, function (err, res) {
+function getNodeStatus (nodeID, address, callback) {
+	needle.get('http://' + address + '/v1/node/' + nodeID, function (err, res) {
 		if (err) {
 			throw err;
 		}
