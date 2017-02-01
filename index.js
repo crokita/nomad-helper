@@ -1,6 +1,5 @@
 var needle = require('needle');
 var jsonfile = require('jsonfile');
-var JSONStream = require('JSONStream');
 
 module.exports = {
 	createJob: createJob,
@@ -85,14 +84,15 @@ function streamLogs (allocationId, taskName, logType, address, callback) {
 	var data = {
 		task: taskName,
 		follow: true, //we want a stream
-		type: logType
+		type: logType,
+		plain: true //plain text streaming!
 	}
-	//pass in {parse:true} because this stream expects formatted JSON
-	needle.request('get', address, data, {parse:true})
-	.pipe(new JSONStream.parse("Data")) //return full JSON objects and only return the "Data" property back
-	.on('data', function (obj) {
+	//as of nomad 0.5.3 we don't need a stream of JSON data, which removes
+	//the possibility of a JSON parsing error with the module
+	needle.request('get', address, data)
+	.on('data', function (encoded) {
 		//base 64 encoding. decode it to utf-8 and return the chunk
-		var result = new Buffer(obj, 'base64').toString('utf-8');
+		var result = new Buffer(encoded, 'base64').toString('utf-8');
 		callback(result);
 	})
 }

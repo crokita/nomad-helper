@@ -2,6 +2,8 @@ Helps with editing job files depending on available services
 
 Plays well with consul-helper
 
+Requires at least Nomad version 0.5.4 to work
+
 An example for Manticore:
 
 ```

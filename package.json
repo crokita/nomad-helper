@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/crokita/nomad-helper#readme",
   "dependencies": {
-    "JSONStream": "^1.2.1",
     "jsonfile": "^2.3.1",
     "needle": "^1.1.0"
   },
