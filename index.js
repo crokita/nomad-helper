@@ -4,6 +4,7 @@ var jsonfile = require('jsonfile');
 module.exports = {
 	createJob: createJob,
 	findJob: findJob,
+	getJobs: getJobs,
 	deleteJob: deleteJob,
 	getAllocations: getAllocations,
 	getNodeStatus: getNodeStatus,
@@ -33,6 +34,16 @@ function findJob (jobName, address, callback) {
 			//no core job
 			callback(null);
 		}	
+	});
+}
+
+//get all jobs
+function getJobs (address, callback) {
+	needle.get('http://' + address + '/v1/jobs', function (err, res) {
+		if (err) {
+			throw err;
+		}
+		callback(res.body);
 	});
 }
 
