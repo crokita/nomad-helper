@@ -49,7 +49,7 @@ function getJobs (address, callback) {
 
 function deleteJob (jobName, address, callback) {
 	needle.delete('http://' + address + '/v1/job/' + jobName, null, function (err, res) {
-		callback();
+		callback(res.body);
 	});
 }
 
