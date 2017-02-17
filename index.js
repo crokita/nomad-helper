@@ -7,6 +7,7 @@ module.exports = {
 	getJobs: getJobs,
 	deleteJob: deleteJob,
 	getAllocations: getAllocations,
+	getAllocation: getAllocation,
 	getNodeStatus: getNodeStatus,
 	streamLogs: streamLogs
 }
@@ -49,6 +50,16 @@ function getJobs (address, callback) {
 
 function deleteJob (jobName, address, callback) {
 	needle.delete('http://' + address + '/v1/job/' + jobName, null, function (err, res) {
+		callback(res.body);
+	});
+}
+
+//get an allocation given an ID
+function getAllocation (allocID, address, callback) {
+	needle.get('http://' + address + '/v1/allocation/' + allocID, function (err, res) {
+		if (err) {
+			throw err;
+		}
 		callback(res.body);
 	});
 }
