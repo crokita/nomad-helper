@@ -7,6 +7,7 @@ module.exports = {
 	getJobs: getJobs,
 	deleteJob: deleteJob,
 	getAllocations: getAllocations,
+	watchAllocations: watchAllocations,
 	getAllocation: getAllocation,
 	getNodeStatus: getNodeStatus,
 	streamLogs: streamLogs
@@ -86,6 +87,47 @@ function getAllocations (jobName, address, callback) {
 			return props;
 		}
 	});
+}
+
+//watch all allocations for a specific job and return updates when found
+function watchAllocations (jobName, address, waitInSeconds, callback) {
+	//waitInSeconds determines how long to wait until we hang up the socket and try to send 
+	//another request for updates. All waitInSeconds really does is determine the maximum
+	//time to wait until we check for updates anyways
+	var stopSending = false; //if true, do not watch the endpoint anymore
+	var options = {
+		open_timeout: waitInSeconds * 1000 //time in milliseconds until we hang up the socket
+	}
+	var index = 0;
+
+	startWatch();
+	function startWatch () {
+		if (stopSending) { //don't stop requesting until stopSending is true
+			return;
+		}
+		var url = 'http://' + address + '/v1/job/' + jobName + '/allocations?index=' + index + "&wait=" + waitInSeconds + "s";
+		needle.get(url, options, function (err, res) {
+			if (err) { //likely a socket hangup. simply make another request assuming stopSending is false
+				index = 0; //reset the index. not entirely necessary.
+				startWatch();
+			}
+			else {
+				//change the index to that of the returned header for the nomad index
+				index = res.headers["x-nomad-index"];
+				var allocations = res.body;
+				callback(allocations); //send back the data
+				//continue watching
+				startWatch();		
+			}
+		});
+	}
+
+	return {
+		end: function () {
+			//if this function is invoked, that means we want to stop listening
+			stopSending = true;
+		}
+	}
 }
 
 //get the status of a node using an ID
