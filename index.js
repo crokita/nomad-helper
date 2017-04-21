@@ -11,6 +11,7 @@ module.exports = {
 	getAllocation: getAllocation,
 	getNodes: getNodes,
 	getNodeStatus: getNodeStatus,
+	getResourceUsage: getResourceUsage
 	streamLogs: streamLogs
 }
 
@@ -144,6 +145,16 @@ function getNodes (address, callback) {
 //get the status of a node using an ID
 function getNodeStatus (nodeID, address, callback) {
 	needle.get('http://' + address + '/v1/node/' + nodeID, function (err, res) {
+		if (err) {
+			throw err;
+		}
+		callback(res.body);
+	});
+}
+
+//given an address, returns the resource usage of that client agent
+function getResourceUsage (address, callback) {
+	needle.get('http://' + address + '/v1/client/stats', function (err, res) {
 		if (err) {
 			throw err;
 		}

@@ -1,6 +1,6 @@
 {
   "name": "nomad-helper",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "Helps with editing job files depending on available services",
   "main": "index.js",
   "scripts": {
