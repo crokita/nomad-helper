@@ -9,6 +9,7 @@ module.exports = {
 	getAllocations: getAllocations,
 	watchAllocations: watchAllocations,
 	getAllocation: getAllocation,
+	getNodes: getNodes,
 	getNodeStatus: getNodeStatus,
 	streamLogs: streamLogs
 }
@@ -128,6 +129,16 @@ function watchAllocations (jobName, address, waitInSeconds, callback) {
 			stopSending = true;
 		}
 	}
+}
+
+//returns all nodes in the local region
+function getNodes (address, callback) {
+	needle.get('http://' + address + '/v1/nodes', function (err, res) {
+		if (err) {
+			throw err;
+		}
+		callback(res.body);
+	});
 }
 
 //get the status of a node using an ID
