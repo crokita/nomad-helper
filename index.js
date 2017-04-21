@@ -11,7 +11,7 @@ module.exports = {
 	getAllocation: getAllocation,
 	getNodes: getNodes,
 	getNodeStatus: getNodeStatus,
-	getResourceUsage: getResourceUsage
+	getResourceUsage: getResourceUsage,
 	streamLogs: streamLogs
 }
 
